@@ -11,3 +11,4 @@ MANIFEST.bak
 *.sw[po]
 .build
 Narwhal-*
+narwhal.db

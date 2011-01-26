@@ -1,0 +1,9 @@
+<html>
+<body>
+<h1>[% page %]</h1>
+<p><a href="[% uri_for('controller', 'wiki', 'action', 'edit', 'page_name', page) %]">Edit</a></p>
+<p>
+[% text %]
+</p>
+</body>
+</html>
