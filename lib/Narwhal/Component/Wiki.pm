@@ -34,7 +34,7 @@ sub page {
     return $req->new_response(404)
         unless $page_obj;
     my $out;
-    $self->process('page.tt', { uri_for => sub { '/' . $req->uri_for({@_}) }, text => $page_obj->text, page => $page }, \$out);
+    $self->process('page.tt', { uri_for => sub { $req->uri_for({@_}) }, text => $page_obj->text, page => $page }, \$out);
     return $req->new_response(200, [], $out);
 }
 
@@ -48,13 +48,13 @@ sub edit {
             $self->insert("page:$page" => $page_obj);
         });
         my $res = $req->new_response(303);
-        $res->location('/' . $req->uri_for({controller => 'wiki', action => 'page', page_name => $page}));
+        $res->location($req->uri_for({controller => 'wiki', action => 'page', page_name => $page}));
         return $res;
     }
     else {
         my $page_obj = $self->lookup("page:$page");
         my $out;
-        $self->process('edit.tt', { uri_for => sub { '/' . $req->uri_for({@_}) }, text => ($page_obj ? $page_obj->text : ''), page => $page }, \$out);
+        $self->process('edit.tt', { uri_for => sub { $req->uri_for({@_}) }, text => ($page_obj ? $page_obj->text : ''), page => $page }, \$out);
         return $req->new_response(200, [], $out);
     }
 }

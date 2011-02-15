@@ -1,6 +1,8 @@
 package Narwhal;
 use OX;
 
+with 'OX::Role::WithAppRoot';
+
 config kioku_dsn => 'dbi:SQLite:narwhal.db';
 config kioku_extra_args => sub { { create => 1 } };
 config template_root => sub {
