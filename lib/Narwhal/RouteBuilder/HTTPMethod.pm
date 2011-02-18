@@ -9,9 +9,10 @@ sub import {
         class      => __PACKAGE__,
         route_spec => sub {
             my $spec = shift;
-            return if ref($spec) || $spec !~ /^\w+$/;
+            return if ref($spec);
+            return unless $spec =~ /^http-method:(\w+)$/;
             return {
-                action => $spec,
+                action => $1,
             };
         },
     );

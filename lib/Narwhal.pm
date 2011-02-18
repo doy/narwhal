@@ -39,7 +39,7 @@ router as {
     route '/page/:page_name' => 'wiki.page', (
         page_name => { isa => 'Str' },
     );
-    route '/edit/:page_name' => 'edit', (
+    route '/edit/:page_name' => 'http-method:edit', (
         page_name => { isa => 'Str' },
     );
 }, (
