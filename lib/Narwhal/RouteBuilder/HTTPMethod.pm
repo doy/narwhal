@@ -3,21 +3,6 @@ use Moose;
 
 with 'OX::RouteBuilder';
 
-sub import {
-    my $meta = Class::MOP::class_of(caller);
-    $meta->add_route_builder(
-        class      => __PACKAGE__,
-        route_spec => sub {
-            my $spec = shift;
-            return if ref($spec);
-            return unless $spec =~ /^http-method:(\w+)$/;
-            return {
-                action => $1,
-            };
-        },
-    );
-}
-
 sub compile_routes {
     my $self = shift;
 
@@ -57,6 +42,16 @@ sub compile_routes {
         },
         validations => $validations,
     ];
+}
+
+sub parse_action_spec {
+    my $self = shift;
+    my ($action_spec) = @_;
+    return if ref($action_spec);
+    return unless $action_spec =~ /^http-method:(\w+)$/;
+    return {
+        action => $1,
+    };
 }
 
 __PACKAGE__->meta->make_immutable;

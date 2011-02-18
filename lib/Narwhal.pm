@@ -1,6 +1,5 @@
 package Narwhal;
 use OX;
-use Narwhal::RouteBuilder::HTTPMethod;
 
 with 'OX::Role::WithAppRoot';
 
@@ -41,7 +40,7 @@ component Kioku => 'Narwhal::Component::Model', (
     extra_args => depends_on('/Config/kioku_extra_args'),
 );
 
-router as {
+router ['Narwhal::RouteBuilder::HTTPMethod'], as {
     route '/' => 'redirect.permanent', (
         to => '/page/main',
     );
