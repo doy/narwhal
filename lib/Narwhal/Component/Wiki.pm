@@ -1,9 +1,9 @@
-package Narwhal::Component::Wiki::Page;
+package Narwhal::Component::Wiki;
 use Moose;
 
 with 'Narwhal::Component::Role::Wiki';
 
-sub get {
+sub page {
     my $self = shift;
     my ($req, $page) = @_;
 

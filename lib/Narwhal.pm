@@ -12,7 +12,7 @@ config template_root => sub {
 
 component Redirect => 'Narwhal::Component::Redirect';
 
-component WikiPage => 'Narwhal::Component::Wiki::Page', (
+component Wiki => 'Narwhal::Component::Wiki', (
     kioku => depends_on('/Component/Kioku'),
     tt    => depends_on('/Component/TT'),
 );
@@ -36,7 +36,7 @@ router as {
     route '/' => 'redirect.permanent', (
         to => '/page/main',
     );
-    route '/page/:page_name' => 'page', (
+    route '/page/:page_name' => 'wiki.page', (
         page_name => { isa => 'Str' },
     );
     route '/edit/:page_name' => 'edit', (
@@ -44,7 +44,7 @@ router as {
     );
 }, (
     redirect => depends_on('/Component/Redirect'),
-    page     => depends_on('/Component/WikiPage'),
+    wiki     => depends_on('/Component/Wiki'),
     edit     => depends_on('/Component/WikiEdit'),
 );
 
