@@ -1,29 +1,7 @@
 package Narwhal::Component::Wiki::Edit;
 use Moose;
 
-has kioku => (
-    isa      => 'KiokuX::Model',
-    required => 1,
-    handles  => 'KiokuDB::Role::API',
-);
-
-has tt => (
-    isa      => 'Template',
-    required => 1,
-    handles  => ['process'],
-);
-
-has scope => (
-    is      => 'ro',
-    isa     => 'KiokuDB::LiveObjects::Scope',
-    lazy    => 1,
-    default => sub { shift->new_scope },
-);
-
-sub BUILD {
-    my $self = shift;
-    $self->scope;
-}
+with 'Narwhal::Component::Role::Wiki';
 
 sub get {
     my $self = shift;
