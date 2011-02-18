@@ -1,12 +1,8 @@
-<html>
-<body>
-<h1>[% page %]</h1>
+[% WRAPPER 'wrappers/root.tt' %]
 <p><a href="[% uri_for('action', 'page', 'page_name', page) %]">View</a></p>
-<p>
 <form method="POST" action="[% uri_for('action', 'edit', 'page_name', page) %]">
 <textarea name="text" rows="10" cols="30">[% text %]</textarea>
 <input type="submit" value="Submit" />
 </form>
 </p>
-</body>
-</html>
+[% END %]

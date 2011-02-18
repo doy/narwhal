@@ -1,17 +1,15 @@
-<html>
-<body>
-<h1>[% page %]</h1>
+[% WRAPPER 'wrappers/root.tt' %]
 [% IF historical %]
 <p>This is a historical view of this page</p>
+<p><a href="[% uri_for('action', 'page', 'page_name', page) %]">View Current</a></p>
 [% ELSE %]
 <p><a href="[% uri_for('action', 'edit', 'page_name', page) %]">Edit</a></p>
 [% END %]
-<p><a href="[% uri_for('action', 'history', 'page_name', page) %]">History</a></p>
+<p><a href="[% uri_for('action', 'history', 'page_name', page) %]">Page History</a></p>
 <p>
 [% text %]
 </p>
 <p style="font-size: small">
 Last modified by [% author.id %] on [% modified %]
 </p>
-</body>
-</html>
+[% END %]

@@ -1,7 +1,5 @@
-<html>
-<body>
-<h1>[% page %]</h1>
-<p><a href="[% uri_for('action', 'page', 'page_name', page) %]">View</a></p>
+[% WRAPPER 'wrappers/root.tt' %]
+<p><a href="[% uri_for('action', 'page', 'page_name', page) %]">View Current</a></p>
 <ul>
 [% SET cur = head %]
 [% WHILE cur %]
@@ -9,8 +7,4 @@
 [% SET cur = cur.previous_revision %]
 [% END %]
 </ul>
-<p style="font-size: small">
-Last modified by [% author.id %] on [% modified %]
-</p>
-</body>
-</html>
+[% END %]
