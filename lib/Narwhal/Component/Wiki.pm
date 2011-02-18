@@ -8,8 +8,16 @@ sub page {
     my ($req, $page_name) = @_;
 
     my $page = $self->lookup("page:$page_name");
-    return $req->new_response(404)
-        unless $page;
+    if (!$page) {
+        my $res = $req->new_response(303);
+        $res->location(
+            $req->uri_for({
+                action     => 'edit',
+                page_name  => $page_name,
+            })
+        );
+        return $res;
+    }
 
     $self->render(
         $req,
