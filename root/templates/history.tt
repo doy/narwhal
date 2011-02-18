@@ -1,9 +1,9 @@
 [% WRAPPER 'wrappers/root.tt' %]
-<p><a href="[% uri_for('action', 'page', 'page_name', page) %]">View Current</a></p>
+<p><a href="[% uri_for('action', 'view', 'page_name', page) %]">View Current</a></p>
 <ul>
 [% SET cur = head %]
 [% WHILE cur %]
-<li><a href="[% uri_for('action', 'old_page', 'page_name', page, 'rev', cur.digest) %]">[% cur.author.id %] on [% cur.modification_date %]</a></li>
+<li><a href="[% uri_for('action', 'view_old', 'page_name', page, 'rev', cur.digest) %]">[% cur.author.id %] on [% cur.modification_date %]</a></li>
 [% SET cur = cur.previous_revision %]
 [% END %]
 </ul>

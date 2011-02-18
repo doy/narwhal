@@ -56,7 +56,7 @@ sub post {
     my $res = $req->new_response(303);
     $res->location(
         $req->uri_for({
-            action     => 'page',
+            action     => 'view',
             page_name  => $page_name,
         })
     );

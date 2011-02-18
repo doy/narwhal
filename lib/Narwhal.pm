@@ -36,13 +36,13 @@ router as {
     route '/' => 'redirect.permanent', (
         to => '/page/main',
     );
-    route '/page/:page_name' => 'wiki.page', (
+    route '/page/:page_name' => 'wiki.view', (
         page_name => { isa => 'Str' },
     );
     route '/edit/:page_name' => 'http-method:edit', (
         page_name => { isa => 'Str' },
     );
-    route '/page/:page_name/:rev' => 'wiki.old_page', (
+    route '/page/:page_name/:rev' => 'wiki.view_old', (
         page_name => { isa => 'Str' },
         rev       => { isa => qr/^[0-9a-f]{40}$/ },
     );

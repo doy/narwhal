@@ -3,7 +3,7 @@ use Moose;
 
 with 'Narwhal::Component::Role::Wiki';
 
-sub page {
+sub view {
     my $self = shift;
     my ($req, $page_name) = @_;
 
@@ -31,7 +31,7 @@ sub page {
     );
 }
 
-sub old_page {
+sub view_old {
     my $self = shift;
     my ($req, $page_name, $rev) = @_;
 

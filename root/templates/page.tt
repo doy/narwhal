@@ -1,7 +1,7 @@
 [% WRAPPER 'wrappers/root.tt' %]
 [% IF historical %]
 <p>This is a historical view of this page</p>
-<p><a href="[% uri_for('action', 'page', 'page_name', page) %]">View Current</a></p>
+<p><a href="[% uri_for('action', 'view', 'page_name', page) %]">View Current</a></p>
 [% ELSE %]
 <p><a href="[% uri_for('action', 'edit', 'page_name', page) %]">Edit</a></p>
 [% END %]
