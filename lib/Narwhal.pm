@@ -4,7 +4,16 @@ use Narwhal::RouteBuilder::HTTPMethod;
 
 with 'OX::Role::WithAppRoot';
 
-config kioku_dsn => 'dbi:SQLite:narwhal.db';
+has dsn => (
+    is      => 'ro',
+    isa     => 'Str',
+    default => 'dbi:SQLite:narwhal.db',
+);
+
+config kioku_dsn => sub {
+    my ($s, $app) = @_;
+    $app->dsn;
+};
 config kioku_extra_args => sub { { create => 1 } };
 config template_root => sub {
     shift->param('app_root')->subdir('root', 'templates')
