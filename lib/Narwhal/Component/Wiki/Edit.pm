@@ -35,17 +35,20 @@ sub post {
 
     $self->txn_do(sub {
         my $page = $self->lookup("page:$page_name");
+        my $user_id = 'foo'; # XXX
+        my $user = $self->lookup("user:$user_id")
+                || Narwhal::User->new(id => $user_id);
         if ($page) {
             $page->new_revision(
                 text   => $req->param('text'),
-                author => Narwhal::User->new(id => 'foo'), # XXX
+                author => $user,
             );
         }
         else {
             $page = Narwhal::Page->new_page(
                 id     => $page_name,
                 text   => $req->param('text'),
-                author => Narwhal::User->new(id => 'foo'), # XXX
+                author => $user,
             );
         }
         $self->store($page);
