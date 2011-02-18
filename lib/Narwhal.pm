@@ -27,7 +27,6 @@ component WikiEdit => 'Narwhal::Component::Wiki::Edit', (
     tt    => depends_on('/Component/TT'),
 );
 
-# turn these two into specialized classes later
 component TT => 'OX::View::TT', (
     template_root => depends_on('/Config/template_root'),
 );
