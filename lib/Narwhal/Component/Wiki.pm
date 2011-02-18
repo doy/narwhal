@@ -5,18 +5,20 @@ with 'Narwhal::Component::Role::Wiki';
 
 sub page {
     my $self = shift;
-    my ($req, $page) = @_;
+    my ($req, $page_name) = @_;
 
-    my $page_obj = $self->lookup("page:$page");
+    my $page = $self->lookup("page:$page_name");
     return $req->new_response(404)
-        unless $page_obj;
+        unless $page;
 
     $self->render(
         $req,
         'page.tt',
         {
-            text => $page_obj->text,
-            page => $page,
+            page     => $page_name,
+            text     => $page->text,
+            author   => $page->author,
+            modified => $page->modification_date,
         },
     );
 }

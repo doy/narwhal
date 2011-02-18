@@ -1,38 +1,60 @@
 package Narwhal::Component::Wiki::Edit;
 use Moose;
 
+use Narwhal::Page;
+use Narwhal::User;
+
 with 'Narwhal::Component::Role::Wiki';
 
 sub get {
     my $self = shift;
-    my ($req, $page) = @_;
+    my ($req, $page_name) = @_;
 
-    my $page_obj = $self->lookup("page:$page");
+    my $page = $self->lookup("page:$page_name");
 
-    $self->render(
-        $req,
-        'edit.tt',
-        {
-            text => ($page_obj ? $page_obj->text : ''),
-            page => $page,
-        }
+    my %template_env = (
+        page => $page_name,
+        text => '',
     );
+
+    if ($page) {
+        %template_env = (
+            %template_env,
+            text     => $page->text,
+            author   => $page->author,
+            modified => $page->modification_date,
+        );
+    }
+
+    $self->render($req, 'edit.tt', \%template_env);
 }
 
 sub post {
     my $self = shift;
-    my ($req, $page) = @_;
+    my ($req, $page_name) = @_;
 
-    my $page_obj = Narwhal::Page->new(text => $req->param('text'));
     $self->txn_do(sub {
-        $self->delete("page:$page");
-        $self->insert("page:$page" => $page_obj);
+        my $page = $self->lookup("page:$page_name");
+        if ($page) {
+            $page->new_revision(
+                text   => $req->param('text'),
+                author => Narwhal::User->new(id => 'foo'), # XXX
+            );
+        }
+        else {
+            $page = Narwhal::Page->new_page(
+                id     => $page_name,
+                text   => $req->param('text'),
+                author => Narwhal::User->new(id => 'foo'), # XXX
+            );
+        }
+        $self->store($page);
     });
     my $res = $req->new_response(303);
     $res->location(
         $req->uri_for({
             action     => 'page',
-            page_name  => $page
+            page_name  => $page_name,
         })
     );
     return $res;
