@@ -1,7 +1,12 @@
 <html>
 <body>
 <h1>[% page %]</h1>
+[% IF historical %]
+<p>This is a historical view of this page</p>
+[% ELSE %]
 <p><a href="[% uri_for('action', 'edit', 'page_name', page) %]">Edit</a></p>
+[% END %]
+<p><a href="[% uri_for('action', 'history', 'page_name', page) %]">History</a></p>
 <p>
 [% text %]
 </p>

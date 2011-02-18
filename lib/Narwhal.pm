@@ -42,6 +42,13 @@ router as {
     route '/edit/:page_name' => 'http-method:edit', (
         page_name => { isa => 'Str' },
     );
+    route '/page/:page_name/:rev' => 'wiki.old_page', (
+        page_name => { isa => 'Str' },
+        rev       => { isa => qr/^[0-9a-f]{40}$/ },
+    );
+    route '/history/:page_name' => 'wiki.history', (
+        page_name => { isa => 'Str' },
+    );
 }, (
     redirect => depends_on('/Component/Redirect'),
     wiki     => depends_on('/Component/Wiki'),
