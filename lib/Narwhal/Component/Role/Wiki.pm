@@ -8,9 +8,9 @@ has kioku => (
 );
 
 has tt => (
-    isa      => 'Template',
+    isa      => 'OX::View::TT',
     required => 1,
-    handles  => ['process'],
+    handles  => ['render'],
 );
 
 has scope => (

@@ -23,8 +23,8 @@ component WikiEdit => 'Narwhal::Component::Wiki::Edit', (
 );
 
 # turn these two into specialized classes later
-component TT => 'Template', (
-    INCLUDE_PATH => depends_on('/Config/template_root'),
+component TT => 'OX::View::TT', (
+    template_root => depends_on('/Config/template_root'),
 );
 
 component Kioku => 'KiokuX::Model', (

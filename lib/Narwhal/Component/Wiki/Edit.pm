@@ -8,17 +8,15 @@ sub get {
     my ($req, $page) = @_;
 
     my $page_obj = $self->lookup("page:$page");
-    my $out;
-    $self->process(
+
+    $self->render(
+        $req,
         'edit.tt',
         {
-            uri_for => sub { $req->uri_for({@_}) },
-            text    => ($page_obj ? $page_obj->text : ''),
-            page    => $page
-        },
-        \$out,
+            text => ($page_obj ? $page_obj->text : ''),
+            page => $page,
+        }
     );
-    return $req->new_response(200, [], $out);
 }
 
 sub post {
