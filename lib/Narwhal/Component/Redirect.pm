@@ -20,7 +20,7 @@ sub temporary {
 sub _get_location {
     my $self = shift;
     my ($req) = @_;
-    my $to = $req->env->{'plack.router.match'}->route->defaults->{to};
+    my $to = $req->env->{'plack.router.match'}->mapping->{to};
     die "must supply a location to redirect to" unless $to;
     return $to;
 }
