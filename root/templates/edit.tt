@@ -8,8 +8,5 @@
 <input type="submit" value="Submit" />
 </form>
 </p>
-<p style="text-size: small">
-Last modified by [% author.id %] on [% modified %]
-</p>
 </body>
 </html>
