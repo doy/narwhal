@@ -51,6 +51,7 @@ sub digest_parts {
         $self->text,
         $self->modification_date->iso8601,
         $self->author->id,
+        ($self->previous_revision ? $self->previous_revision->digest : ''),
     );
 }
 
