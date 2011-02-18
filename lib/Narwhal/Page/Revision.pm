@@ -5,6 +5,12 @@ use DateTime;
 
 with 'KiokuDB::Role::ID::Digest', 'MooseX::Clone';
 
+has page_id => (
+    is       => 'ro',
+    isa      => 'Str',
+    required => 1,
+);
+
 has text => (
     is       => 'ro',
     isa      => 'Str',
@@ -41,6 +47,7 @@ sub new_revision {
 sub digest_parts {
     my $self = shift;
     return (
+        $self->page_id,
         $self->text,
         $self->modification_date->iso8601,
         $self->author->id,

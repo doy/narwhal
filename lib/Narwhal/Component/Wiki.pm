@@ -37,7 +37,7 @@ sub old_page {
 
     my $page_rev = $self->lookup($rev);
     return $req->new_response(404)
-        unless $page_rev;
+        unless $page_rev && $page_rev->page_id eq $page_name;
 
     $self->render(
         $req,

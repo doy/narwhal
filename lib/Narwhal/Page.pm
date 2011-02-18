@@ -5,17 +5,16 @@ use Narwhal::Page::Revision;
 
 with 'KiokuDB::Role::ID';
 
-has id => (
-    is       => 'ro',
-    isa      => 'Str',
-    required => 1,
-);
-
 has current_revision => (
     is       => 'rw',
     isa      => 'Narwhal::Page::Revision',
     required => 1,
-    handles  => ['text', 'author', 'modification_date'],
+    handles => {
+        id                => 'page_id',
+        text              => 'text',
+        author            => 'author',
+        modification_date => 'modification_date',
+    },
 );
 
 sub kiokudb_object_id { 'page:' . shift->id }
@@ -31,9 +30,8 @@ sub new_page {
     my $class = shift;
     my %opts = @_;
     my $id = delete $opts{id};
-    my $rev = Narwhal::Page::Revision->new(%opts);
+    my $rev = Narwhal::Page::Revision->new(page_id => $id, %opts);
     return $class->new(
-        id               => $id,
         current_revision => $rev,
     );
 }
