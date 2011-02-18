@@ -7,7 +7,7 @@ sub view {
     my $self = shift;
     my ($req, $page_name) = @_;
 
-    my $page = $self->lookup("page:$page_name");
+    my $page = $self->get_page($page_name);
     if (!$page) {
         my $res = $req->new_response(303);
         $res->location(
@@ -35,9 +35,9 @@ sub view_old {
     my $self = shift;
     my ($req, $page_name, $rev) = @_;
 
-    my $page_rev = $self->lookup($rev);
+    my $page_rev = $self->get_page_rev($page_name, $rev);
     return $req->new_response(404)
-        unless $page_rev && $page_rev->page_id eq $page_name;
+        unless $page_rev;
 
     $self->render(
         $req,
@@ -56,7 +56,7 @@ sub history {
     my $self = shift;
     my ($req, $page_name) = @_;
 
-    my $page = $self->lookup("page:$page_name");
+    my $page = $self->get_page($page_name);
 
     $self->render(
         $req,

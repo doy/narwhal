@@ -27,7 +27,7 @@ component TT => 'OX::View::TT', (
     template_root => depends_on('/Config/template_root'),
 );
 
-component Kioku => 'KiokuX::Model', (
+component Kioku => 'Narwhal::Component::Model', (
     dsn        => depends_on('/Config/kioku_dsn'),
     extra_args => depends_on('/Config/kioku_extra_args'),
 );

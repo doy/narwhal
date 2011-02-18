@@ -4,7 +4,14 @@ use Moose::Role;
 has kioku => (
     isa      => 'KiokuX::Model',
     required => 1,
-    handles  => 'KiokuDB::Role::API',
+    handles  => [
+        'get_user',
+        'get_page',
+        'get_page_rev',
+        'create_page_rev',
+        'new_scope',
+        'txn_do',
+    ],
 );
 
 has tt => (

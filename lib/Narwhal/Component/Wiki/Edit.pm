@@ -10,7 +10,7 @@ sub get {
     my $self = shift;
     my ($req, $page_name) = @_;
 
-    my $page = $self->lookup("page:$page_name");
+    my $page = $self->get_page($page_name);
 
     my %template_env = (
         page => $page_name,
@@ -34,24 +34,15 @@ sub post {
     my ($req, $page_name) = @_;
 
     $self->txn_do(sub {
-        my $page = $self->lookup("page:$page_name");
+        my $page = $self->get_page($page_name);
         my $user_id = 'foo'; # XXX
-        my $user = $self->lookup("user:$user_id")
+        my $user = $self->get_user($user_id)
                 || Narwhal::User->new(id => $user_id);
-        if ($page) {
-            $page->new_revision(
-                text   => $req->param('text'),
-                author => $user,
-            );
-        }
-        else {
-            $page = Narwhal::Page->new_page(
-                id     => $page_name,
-                text   => $req->param('text'),
-                author => $user,
-            );
-        }
-        $self->store($page);
+        $self->create_page_rev(
+            text      => $req->param('text'),
+            author    => $user,
+            page_name => $page_name,
+        );
     });
     my $res = $req->new_response(303);
     $res->location(
