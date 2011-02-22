@@ -4,36 +4,54 @@ use OX;
 with 'OX::Role::WithAppRoot';
 
 has kioku_dsn => (
-    traits  => ['OX::Config'],
-    is      => 'ro',
-    isa     => 'Str',
-    default => 'dbi:SQLite:narwhal.db',
+    is    => 'ro',
+    isa   => 'Str',
+    value => 'dbi:SQLite:narwhal.db',
 );
 
-config kioku_extra_args => sub { { create => 1 } };
-config template_root => sub {
-    shift->param('app_root')->subdir('root', 'templates')
-}, (app_root => depends_on('/app_root'));
-
-component Redirect => 'Narwhal::Component::Redirect';
-
-component Wiki => 'Narwhal::Component::Wiki', (
-    kioku => depends_on('/Component/Kioku'),
-    tt    => depends_on('/Component/TT'),
+has kioku_extra_args => (
+    is    => 'ro',
+    isa   => 'HashRef',
+    block => sub { { create => 1 } },
 );
 
-component WikiEdit => 'Narwhal::Component::Wiki::Edit', (
-    kioku => depends_on('/Component/Kioku'),
-    tt    => depends_on('/Component/TT'),
+has template_root => (
+    is    => 'ro',
+    isa   => 'Str',
+    block => sub { shift->param('app_root')->subdir('root', 'templates') },
+    dependencies => ['app_root'],
 );
 
-component TT => 'OX::View::TT', (
-    template_root => depends_on('/Config/template_root'),
+has redirect => (
+    is  => 'ro',
+    isa => 'Narwhal::Component::Redirect',
 );
 
-component Kioku => 'Narwhal::Component::Model', (
-    dsn        => depends_on('/Config/kioku_dsn'),
-    extra_args => depends_on('/Config/kioku_extra_args'),
+has wiki => (
+    is  => 'ro',
+    isa => 'Narwhal::Component::Wiki',
+    dependencies => ['kioku', 'tt'],
+);
+
+has wiki_edit => (
+    is  => 'ro',
+    isa => 'Narwhal::Component::Wiki::Edit',
+    dependencies => ['kioku', 'tt'],
+);
+
+has tt => (
+    is  => 'ro',
+    isa => 'OX::View::TT',
+    dependencies => ['template_root'],
+);
+
+has kioku => (
+    is => 'ro',
+    isa => 'Narwhal::Component::Model',
+    dependencies => {
+        dsn        => 'kioku_dsn',
+        extra_args => 'kioku_extra_args',
+    },
 );
 
 router ['Narwhal::RouteBuilder::HTTPMethod'], as {
@@ -54,9 +72,9 @@ router ['Narwhal::RouteBuilder::HTTPMethod'], as {
         page_name => { isa => 'Str' },
     );
 }, (
-    redirect => depends_on('/Component/Redirect'),
-    wiki     => depends_on('/Component/Wiki'),
-    edit     => depends_on('/Component/WikiEdit'),
+    redirect => depends_on('redirect'),
+    wiki     => depends_on('wiki'),
+    edit     => depends_on('wiki_edit'),
 );
 
 no OX;
