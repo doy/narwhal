@@ -1,6 +1,8 @@
 package Narwhal;
 use OX;
 
+use MooseX::Types::Path::Class;
+
 with 'OX::Role::WithAppRoot';
 
 has kioku_dsn => (
@@ -16,9 +18,10 @@ has kioku_extra_args => (
 );
 
 has template_root => (
-    is    => 'ro',
-    isa   => 'Str',
-    block => sub { shift->param('app_root')->subdir('root', 'templates') },
+    is     => 'ro',
+    isa    => 'Path::Class::Dir',
+    coerce => 1,
+    block  => sub { shift->param('app_root')->subdir('root', 'templates') },
     dependencies => ['app_root'],
 );
 
